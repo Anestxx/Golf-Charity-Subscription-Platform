@@ -58,3 +58,45 @@ mvn clean package
 
 - This workspace did not include Maven or Tomcat, so the app is laid out as a standard WAR project ready to build in a Java web environment.
 - The pure Java utility and data classes are kept framework-light so they can be validated independently of Tomcat.
+
+## Render Deployment
+
+Deploy this project to Render as a `Web Service` with `Language = Docker`.
+
+Files used for deployment:
+
+- `Dockerfile`
+- `render-entrypoint.sh`
+
+Render sets `PORT` automatically for the web service. The entrypoint script updates Tomcat to listen on that port.
+
+### Environment Variables For The Web Service
+
+Set these in your Render web service:
+
+```text
+GOLF_DB_URL=jdbc:mysql://<YOUR_RENDER_MYSQL_HOST>:3306/golf_charity?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+GOLF_DB_USER=<YOUR_MYSQL_USER>
+GOLF_DB_PASSWORD=<YOUR_MYSQL_PASSWORD>
+```
+
+Example:
+
+```text
+GOLF_DB_URL=jdbc:mysql://golf-mysql:3306/golf_charity?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+GOLF_DB_USER=golfapp
+GOLF_DB_PASSWORD=change-this-password
+```
+
+### If You Also Run MySQL On Render
+
+For the MySQL service itself, typical environment variables are:
+
+```text
+MYSQL_DATABASE=golf_charity
+MYSQL_USER=golfapp
+MYSQL_PASSWORD=change-this-password
+MYSQL_ROOT_PASSWORD=change-this-root-password
+```
+
+After the database service is running, use its internal hostname in `GOLF_DB_URL`.
