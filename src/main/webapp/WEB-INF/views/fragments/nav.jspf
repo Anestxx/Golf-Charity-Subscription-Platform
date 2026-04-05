@@ -1,0 +1,25 @@
+<%
+boolean authenticated = Boolean.TRUE.equals(request.getAttribute("isAuthenticated"));
+String currentPath = String.valueOf(request.getAttribute("currentPath"));
+String viewerName = request.getAttribute("viewerName") == null ? "Member" : String.valueOf(request.getAttribute("viewerName"));
+%>
+<header class="topbar">
+    <div class="brand-lockup">
+        <a href="<%= request.getContextPath() %>/" class="brand-mark">Golf Charity Club</a>
+        <p class="brand-copy">A subscription and donor experience for modern golf communities.</p>
+    </div>
+    <nav class="topnav">
+        <a class="<%= "/".equals(currentPath) ? "active" : "" %>" href="<%= request.getContextPath() %>/">Home</a>
+        <% if (authenticated) { %>
+        <a class="<%= "/dashboard".equals(currentPath) ? "active" : "" %>" href="<%= request.getContextPath() %>/dashboard">Dashboard</a>
+        <a class="<%= "/events".equals(currentPath) ? "active" : "" %>" href="<%= request.getContextPath() %>/events">Events</a>
+        <a class="<%= "/donations".equals(currentPath) ? "active" : "" %>" href="<%= request.getContextPath() %>/donations">Donations</a>
+        <span class="nav-pill">Signed in as <strong><%= viewerName %></strong></span>
+        <a class="nav-cta ghost" href="<%= request.getContextPath() %>/logout">Logout</a>
+        <% } else { %>
+        <a class="<%= "/login".equals(currentPath) ? "active" : "" %>" href="<%= request.getContextPath() %>/login">Login</a>
+        <a class="nav-cta" href="<%= request.getContextPath() %>/register">Join the Club</a>
+        <% } %>
+    </nav>
+</header>
+

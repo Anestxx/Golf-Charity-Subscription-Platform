@@ -1,19 +1,9 @@
-node_modules/
-.next/
-
-.env
-.env.local
-.env.*.local
-
-data/*.db
-data/*.sqlite
-data/*.sqlite3
-
+target/
+.idea/
+.settings/
+.classpath
+.project
+.vscode/
+*.iml
 *.log
-start.out.log
-start.err.log
 
-.DS_Store
-Thumbs.db
-
-.vercel/

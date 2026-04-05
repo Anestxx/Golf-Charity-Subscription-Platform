@@ -1,0 +1,16 @@
+<%
+Object flashType = request.getAttribute("flashType");
+Object flashMessage = request.getAttribute("flashMessage");
+Object formError = request.getAttribute("formError");
+if (flashMessage != null) {
+%>
+<div class="flash flash-<%= flashType %>"><%= flashMessage %></div>
+<%
+}
+if (formError != null) {
+%>
+<div class="flash flash-warning"><%= formError %></div>
+<%
+}
+%>
+

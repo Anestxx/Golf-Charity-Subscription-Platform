@@ -1,0 +1,6 @@
+<footer class="site-footer">
+    <p>Built for premium member journeys, donor storytelling, and golf-led fundraising.</p>
+</footer>
+<script>
+<%@ include file="/assets/js/site.js" %>
+</script>

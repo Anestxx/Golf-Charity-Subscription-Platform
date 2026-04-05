@@ -1,0 +1,22 @@
+<%
+String sectionPath = String.valueOf(request.getAttribute("currentPath"));
+String sectionViewer = request.getAttribute("viewerName") == null ? "Member" : String.valueOf(request.getAttribute("viewerName"));
+String sectionRole = request.getAttribute("viewerRole") == null ? "MEMBER" : String.valueOf(request.getAttribute("viewerRole"));
+%>
+<aside class="sidebar glass-panel">
+    <div class="sidebar-header">
+        <p class="eyebrow">Member Console</p>
+        <h2><%= sectionViewer %></h2>
+        <p class="muted"><%= sectionRole %> access</p>
+    </div>
+    <nav class="sidebar-nav">
+        <a class="<%= "/dashboard".equals(sectionPath) ? "active" : "" %>" href="<%= request.getContextPath() %>/dashboard">Overview</a>
+        <a class="<%= "/events".equals(sectionPath) ? "active" : "" %>" href="<%= request.getContextPath() %>/events">Events</a>
+        <a class="<%= "/tee-times".equals(sectionPath) ? "active" : "" %>" href="<%= request.getContextPath() %>/tee-times">Tee Times</a>
+        <a class="<%= "/donations".equals(sectionPath) ? "active" : "" %>" href="<%= request.getContextPath() %>/donations">Donations</a>
+        <a class="<%= "/directory".equals(sectionPath) ? "active" : "" %>" href="<%= request.getContextPath() %>/directory">Directory</a>
+        <a class="<%= "/account".equals(sectionPath) ? "active" : "" %>" href="<%= request.getContextPath() %>/account">My Account</a>
+        <a class="<%= "/payments".equals(sectionPath) ? "active" : "" %>" href="<%= request.getContextPath() %>/payments">Payments</a>
+    </nav>
+</aside>
+
