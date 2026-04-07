@@ -47,6 +47,14 @@ $env:GOLF_DB_PASSWORD="root"
 mvn clean package
 ```
 
+If your environment blocks Maven Central, configure a mirror:
+
+```powershell
+cp .mvn/settings.xml.example .mvn/settings.xml
+# edit .mvn/settings.xml and replace the mirror URL
+mvn -s .mvn/settings.xml clean package
+```
+
 6. Deploy `target/golf-charity-platform.war` to Tomcat 10+.
 
 ## Demo Accounts
@@ -80,6 +88,17 @@ GOLF_DB_USER=<YOUR_MYSQL_USER>
 GOLF_DB_PASSWORD=<YOUR_MYSQL_PASSWORD>
 ```
 
+The application also auto-detects Railway-style MySQL variables if `GOLF_DB_*` is not set:
+
+```text
+MYSQLHOST
+MYSQLPORT
+MYSQLDATABASE
+MYSQLUSER
+MYSQLPASSWORD
+MYSQL_URL (or DATABASE_URL)
+```
+
 Example:
 
 ```text
@@ -100,3 +119,21 @@ MYSQL_ROOT_PASSWORD=change-this-root-password
 ```
 
 After the database service is running, use its internal hostname in `GOLF_DB_URL`.
+
+## Troubleshooting Build Errors
+
+### `CONNECT tunnel failed, response 403` while downloading Maven plugins
+
+This indicates your network proxy is blocking direct access to Maven Central.
+
+Use a reachable Maven mirror:
+
+1. Copy `.mvn/settings.xml.example` to `.mvn/settings.xml`.
+2. Set `<url>` to your organization's artifact proxy (for example Nexus/Artifactory) or a permitted regional Maven mirror.
+3. Run Maven with the settings file:
+
+```bash
+mvn -s .mvn/settings.xml test
+```
+
+If you do not have a mirror URL, ask your network/platform administrator for the correct Maven repository endpoint.

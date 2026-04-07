@@ -1,0 +1,16 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <!--
+    Copy this file to .mvn/settings.xml and replace the mirror URL
+    when Maven Central is blocked by a network proxy.
+  -->
+  <mirrors>
+    <mirror>
+      <id>corporate-or-regional-mirror</id>
+      <name>Corporate Maven Mirror</name>
+      <url>https://REPLACE_WITH_YOUR_MAVEN_MIRROR/repository/maven-public/</url>
+      <mirrorOf>central</mirrorOf>
+    </mirror>
+  </mirrors>
+</settings>
