@@ -52,25 +52,25 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.7.1</version>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>war-with-dependencies</descriptorRef>
-          </descriptorRefs>
-          <archive>
-            <manifest>
-              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-            </manifest>
-          </archive>
-        </configuration>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.6.0</version>
         <executions>
           <execution>
-            <id>make-assembly</id>
+            <id>shade-dependencies</id>
             <phase>package</phase>
             <goals>
-              <goal>single</goal>
+              <goal>shade</goal>
             </goals>
+            <configuration>
+              <shadedArtifactAttached>false</shadedArtifactAttached>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <artifactSet>
+                <excludes>
+                  <exclude>jakarta.servlet:jakarta.servlet-api</exclude>
+                  <exclude>jakarta.servlet.jsp:jakarta.servlet.jsp-api</exclude>
+                </excludes>
+              </artifactSet>
+            </configuration>
           </execution>
         </executions>
       </plugin>
