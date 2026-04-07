@@ -88,6 +88,17 @@ GOLF_DB_USER=<YOUR_MYSQL_USER>
 GOLF_DB_PASSWORD=<YOUR_MYSQL_PASSWORD>
 ```
 
+The application also auto-detects Railway-style MySQL variables if `GOLF_DB_*` is not set:
+
+```text
+MYSQLHOST
+MYSQLPORT
+MYSQLDATABASE
+MYSQLUSER
+MYSQLPASSWORD
+MYSQL_URL (or DATABASE_URL)
+```
+
 Example:
 
 ```text
