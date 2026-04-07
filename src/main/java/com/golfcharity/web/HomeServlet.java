@@ -11,9 +11,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(urlPatterns = {""})
 public class HomeServlet extends BaseServlet {
+    private static final Logger LOGGER = Logger.getLogger(HomeServlet.class.getName());
+
     private final EventDao eventDao = new EventDao();
     private final DonationDao donationDao = new DonationDao();
     private final DashboardDao dashboardDao = new DashboardDao();
@@ -25,9 +30,16 @@ public class HomeServlet extends BaseServlet {
             request.setAttribute("featuredEvents", eventDao.listUpcomingEvents(3));
             request.setAttribute("topDonors", donationDao.topDonors(3));
             request.setAttribute("stats", dashboardDao.fetchStats());
-            render(request, response, "index");
         } catch (SQLException ex) {
-            throw new ServletException("Unable to load landing page", ex);
+            LOGGER.log(Level.WARNING, "Landing page data unavailable. Rendering fallback content.", ex);
+            request.setAttribute("featuredEvents", List.of());
+            request.setAttribute("topDonors", List.of());
+            request.setAttribute("stats", null);
+            request.setAttribute(
+                "landingWarning",
+                "Live dashboard data is temporarily unavailable. Please try again in a moment."
+            );
         }
+        render(request, response, "index");
     }
 }
