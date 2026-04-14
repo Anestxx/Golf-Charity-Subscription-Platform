@@ -191,6 +191,195 @@ flowchart LR
 
 ---
 
+## Detailed page-by-page deep dive (purpose, processing, and value)
+
+This section expands each page with three lenses:
+
+- **What the page does (UI purpose)**
+- **How it works internally (server + data interaction)**
+- **Why it is helpful (business/member outcome)**
+
+### 1) Home page (`/`)
+
+**What it does**
+- Presents the brand message, key metrics, featured upcoming events, and a donor spotlight.
+- Provides clear entry points to register or log in.
+
+**How it works**
+- `HomeServlet` collects:
+  - featured events (`EventDao`),
+  - top donors (`DonationDao`),
+  - stats (`DashboardDao`).
+- If DB data is temporarily unavailable, it renders fallback content and a warning banner.
+
+**Why it is helpful**
+- Converts visitors to members by showing both participation value (events) and social impact (donor visibility).
+- Keeps the landing page resilient even if data services are briefly unavailable.
+
+### 2) Register page (`/register`)
+
+**What it does**
+- Captures new member data: full name, email, password, city, optional team/foursome.
+
+**How it works**
+- `RegisterServlet` accepts form input, calls `AuthService.register`, creates session identity, and redirects to dashboard on success.
+- On validation failure, it returns the same page with preserved form values and error messaging.
+
+**Why it is helpful**
+- Reduces administrative onboarding work by enabling self-registration.
+- Creates an immediately usable account session, so the user can proceed without extra waiting.
+
+### 3) Login page (`/login`)
+
+**What it does**
+- Allows existing members to sign in.
+
+**How it works**
+- `LoginServlet` validates credentials through `AuthService.authenticate`.
+- On success, session attributes (`userId`, name, role) are set and member is redirected to `/dashboard`.
+
+**Why it is helpful**
+- Protects sensitive/transactional pages and personal records.
+- Supports personalized UI context (viewer name, role, flash messages).
+
+### 4) Dashboard page (`/dashboard`)
+
+**What it does**
+- Serves as a command center with membership stats, upcoming events, tee slots, top donors, and subscription snapshot.
+
+**How it works**
+- `DashboardServlet` aggregates data from several DAOs in one request:
+  - `DashboardDao` stats,
+  - `EventDao` event list,
+  - `TeeTimeDao` upcoming slots,
+  - `DonationDao` top donors,
+  - `SubscriptionDao` current plan.
+
+**Why it is helpful**
+- Removes the need for members/admins to navigate multiple screens for routine awareness.
+- Encourages engagement by putting “next actions” and progress indicators in one place.
+
+### 5) Events page (`/events`)
+
+**What it does**
+- Displays available upcoming events and allows seat reservation.
+
+**How it works**
+- `EventsServlet` loads event inventory and member’s already-registered event IDs.
+- On booking attempt, backend enforces:
+  - no duplicate registration,
+  - capacity constraints.
+- UI disables buttons for sold-out/already-registered states.
+
+**Why it is helpful**
+- Maintains reliable seat accounting for fundraising rounds and club events.
+- Prevents front-desk reconciliation issues caused by manual overbooking.
+
+### 6) Tee Times page (`/tee-times`)
+
+**What it does**
+- Lists available golf slots and allows reservation.
+
+**How it works**
+- `TeeTimeServlet` loads upcoming slots plus user’s booked slot IDs.
+- Booking logic enforces:
+  - slot capacity,
+  - no duplicate slot booking,
+  - one confirmed booking per user per day.
+- UI states clearly show unavailable/full/already-booked conditions.
+
+**Why it is helpful**
+- Delivers fair slot access and avoids schedule collisions.
+- Reduces course operations overhead by enforcing policy in system logic.
+
+### 7) Donations page (`/donations`)
+
+**What it does**
+- Lets members submit donations and view donor/team leaderboards with total raised.
+
+**How it works**
+- `DonationsServlet`:
+  - reads donor leaderboard + team leaderboard + cumulative amount,
+  - validates submitted amount,
+  - stores donation with reference code.
+- Database trigger updates `teams.total_raised` after each donation insert.
+
+**Why it is helpful**
+- Creates a visible feedback loop for fundraising momentum.
+- Recognizes top contributors and teams, which increases campaign participation.
+
+### 8) Directory page (`/directory`)
+
+**What it does**
+- Provides a searchable member network view (name/city/team/handicap/bio).
+
+**How it works**
+- `DirectoryServlet` accepts optional query `q` and calls `UserDao.searchDirectory`.
+- Directory visibility preference is respected via profile settings.
+
+**Why it is helpful**
+- Strengthens community networking and team formation.
+- Balances discoverability with member privacy controls.
+
+### 9) Account page (`/account`)
+
+**What it does**
+- Displays subscription status and offers profile editing + renewal action.
+
+**How it works**
+- `AccountServlet` handles two post actions:
+  - `renew`: executes membership renewal flow via `MembershipService`,
+  - `profile`: updates team/city/handicap/bio/directory visibility.
+- Team assignment supports find-or-create behavior via `TeamDao`.
+
+**Why it is helpful**
+- Enables self-service profile quality and subscription continuity.
+- Keeps directory data current and reduces support requests.
+
+### 10) Payments page (`/payments`)
+
+**What it does**
+- Simulates operational payments (e.g., sponsorship/event fee/merch) and shows history.
+
+**How it works**
+- `PaymentsServlet` validates amount/type, stores record with generated reference code, and lists user payment history.
+- Useful for demo/academic flows where full gateway integration is out of scope.
+
+**Why it is helpful**
+- Preserves transaction traceability and status history in one place.
+- Demonstrates extensible transaction handling for future real payment gateway integration.
+
+### 11) Logout page (`/logout`)
+
+**What it does**
+- Ends session and redirects to login with a flash message.
+
+**How it works**
+- `LogoutServlet` invalidates active session and clears authenticated state.
+
+**Why it is helpful**
+- Important for shared devices and role/session safety.
+
+---
+
+## End-to-end user journey (simple)
+
+1. Visitor lands on `/` and sees impact + opportunities.
+2. User signs up via `/register` (or uses `/login`).
+3. Authenticated flow opens at `/dashboard`.
+4. User can then:
+   - reserve events (`/events`),
+   - reserve rounds (`/tee-times`),
+   - donate (`/donations`),
+   - maintain profile/subscription (`/account`),
+   - track transaction logs (`/payments`),
+   - network (`/directory`).
+5. User logs out safely through `/logout`.
+
+This journey demonstrates the project’s central value: **one integrated place for club operations + fundraising impact**.
+
+---
+
 ## Technology stack summary
 
 - **Backend:** Java, Jakarta Servlets, JDBC.
