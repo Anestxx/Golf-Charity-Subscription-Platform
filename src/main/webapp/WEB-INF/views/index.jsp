@@ -47,7 +47,7 @@ String landingWarning = (String) request.getAttribute("landingWarning");
                     <span class="metric-label">Upcoming Events</span>
                 </article>
                 <article>
-                    <span class="metric-value"><%= stats == null || stats.getTotalRaised() == null ? "0" : stats.getTotalRaised() %></span>
+                    <span class="metric-value">Rs <%= stats == null || stats.getTotalRaised() == null ? "0" : stats.getTotalRaised() %></span>
                     <span class="metric-label">Raised for Charity</span>
                 </article>
             </div>
@@ -98,7 +98,7 @@ String landingWarning = (String) request.getAttribute("landingWarning");
                             <h3><%= entry.getLabel() %></h3>
                             <p><%= entry.getSubLabel() %></p>
                         </div>
-                        <strong><%= entry.getTotalAmount() %></strong>
+                        <strong>Rs <%= entry.getTotalAmount() %></strong>
                     </article>
                     <% } %>
                 </div>

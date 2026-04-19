@@ -47,7 +47,7 @@ List<LeaderboardEntry> topDonors = (List<LeaderboardEntry>) request.getAttribute
                 </article>
                 <article class="stat-card glass-panel reveal">
                     <span>Total Raised</span>
-                    <strong><%= stats == null || stats.getTotalRaised() == null ? "0" : stats.getTotalRaised() %></strong>
+                    <strong>Rs <%= stats == null || stats.getTotalRaised() == null ? "0" : stats.getTotalRaised() %></strong>
                 </article>
             </section>
 
@@ -99,7 +99,7 @@ List<LeaderboardEntry> topDonors = (List<LeaderboardEntry>) request.getAttribute
                                 <h3><%= entry.getLabel() %></h3>
                                 <p><%= entry.getSubLabel() %></p>
                             </div>
-                            <strong><%= entry.getTotalAmount() %></strong>
+                            <strong>Rs <%= entry.getTotalAmount() %></strong>
                         </article>
                         <% } %>
                     </div>

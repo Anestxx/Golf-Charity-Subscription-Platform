@@ -35,7 +35,7 @@ Set<Long> registeredEventIds = (Set<Long>) request.getAttribute("registeredEvent
                     <p><%= event.getDescription() %></p>
                     <div class="detail-row">
                         <span><%= event.getLocation() %></span>
-                        <span>Fee <strong><%= event.getSeatFee() %></strong></span>
+                        <span>Fee <strong>Rs <%= event.getSeatFee() %></strong></span>
                     </div>
                     <div class="detail-row">
                         <span><%= event.getSeatsRemaining() %> seats left</span>

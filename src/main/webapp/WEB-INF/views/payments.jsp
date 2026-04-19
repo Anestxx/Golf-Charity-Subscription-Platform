@@ -60,7 +60,7 @@ List<Payment> payments = (List<Payment>) request.getAttribute("payments");
                                 <tr>
                                     <td><%= payment.getPaymentType() %></td>
                                     <td><%= payment.getReferenceCode() %></td>
-                                    <td><%= payment.getAmount() %></td>
+                                    <td>Rs <%= payment.getAmount() %></td>
                                     <td><%= payment.getStatus() %></td>
                                     <td><%= payment.getCreatedAt() == null ? "" : payment.getCreatedAt().toLocalDate() %></td>
                                 </tr>
