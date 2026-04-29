@@ -8,6 +8,7 @@ request.setAttribute("pageTitle", "Home");
 List<Event> featuredEvents = (List<Event>) request.getAttribute("featuredEvents");
 List<LeaderboardEntry> topDonors = (List<LeaderboardEntry>) request.getAttribute("topDonors");
 DashboardStats stats = (DashboardStats) request.getAttribute("stats");
+String landingWarning = (String) request.getAttribute("landingWarning");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +18,15 @@ DashboardStats stats = (DashboardStats) request.getAttribute("stats");
 <body class="marketing-body">
     <%@ include file="fragments/nav.jspf" %>
     <main>
+        <% if (landingWarning != null && !landingWarning.isBlank()) { %>
+        <section class="section-grid">
+            <article class="feature-card glass-panel" style="border-left: 4px solid #f59e0b;">
+                <p class="eyebrow">Notice</p>
+                <p><%= landingWarning %></p>
+            </article>
+        </section>
+        <% } %>
+
         <section class="hero" data-parallax>
             <div class="hero-copy glass-panel">
                 <p class="eyebrow">Golf Charity Subscription Platform</p>
@@ -37,7 +47,7 @@ DashboardStats stats = (DashboardStats) request.getAttribute("stats");
                     <span class="metric-label">Upcoming Events</span>
                 </article>
                 <article>
-                    <span class="metric-value"><%= stats == null || stats.getTotalRaised() == null ? "0" : stats.getTotalRaised() %></span>
+                    <span class="metric-value">Rs <%= stats == null || stats.getTotalRaised() == null ? "0" : stats.getTotalRaised() %></span>
                     <span class="metric-label">Raised for Charity</span>
                 </article>
             </div>
@@ -88,7 +98,7 @@ DashboardStats stats = (DashboardStats) request.getAttribute("stats");
                             <h3><%= entry.getLabel() %></h3>
                             <p><%= entry.getSubLabel() %></p>
                         </div>
-                        <strong><%= entry.getTotalAmount() %></strong>
+                        <strong>Rs <%= entry.getTotalAmount() %></strong>
                     </article>
                     <% } %>
                 </div>
@@ -104,4 +114,3 @@ DashboardStats stats = (DashboardStats) request.getAttribute("stats");
     <%@ include file="fragments/footer.jspf" %>
 </body>
 </html>
-

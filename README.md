@@ -67,25 +67,36 @@ mvn -s .mvn/settings.xml clean package
 - This workspace did not include Maven or Tomcat, so the app is laid out as a standard WAR project ready to build in a Java web environment.
 - The pure Java utility and data classes are kept framework-light so they can be validated independently of Tomcat.
 
-## Render Deployment
+## Railway Deployment
 
-Deploy this project to Render as a `Web Service` with `Language = Docker`.
+Deploy this project to Railway as a Docker-based service.
 
 Files used for deployment:
 
 - `Dockerfile`
-- `render-entrypoint.sh`
+- `railway-entrypoint.sh` (entrypoint script used to align Tomcat with Railway's runtime `PORT`)
 
-Render sets `PORT` automatically for the web service. The entrypoint script updates Tomcat to listen on that port.
+Railway sets `PORT` automatically for the web service. The entrypoint script updates Tomcat to listen on that port.
 
-### Environment Variables For The Web Service
+### Environment Variables For The Railway Service
 
-Set these in your Render web service:
+Set these in your Railway service:
 
 ```text
-GOLF_DB_URL=jdbc:mysql://<YOUR_RENDER_MYSQL_HOST>:3306/golf_charity?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+GOLF_DB_URL=jdbc:mysql://<YOUR_RAILWAY_MYSQL_HOST>:3306/golf_charity?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
 GOLF_DB_USER=<YOUR_MYSQL_USER>
 GOLF_DB_PASSWORD=<YOUR_MYSQL_PASSWORD>
+```
+
+The application also auto-detects Railway-style MySQL variables if `GOLF_DB_*` is not set:
+
+```text
+MYSQLHOST
+MYSQLPORT
+MYSQLDATABASE
+MYSQLUSER
+MYSQLPASSWORD
+MYSQL_URL (or DATABASE_URL)
 ```
 
 Example:
@@ -96,7 +107,7 @@ GOLF_DB_USER=golfapp
 GOLF_DB_PASSWORD=change-this-password
 ```
 
-### If You Also Run MySQL On Render
+### If You Also Run MySQL On Railway
 
 For the MySQL service itself, typical environment variables are:
 
@@ -107,7 +118,7 @@ MYSQL_PASSWORD=change-this-password
 MYSQL_ROOT_PASSWORD=change-this-root-password
 ```
 
-After the database service is running, use its internal hostname in `GOLF_DB_URL`.
+After the database service is running, use its internal hostname in `GOLF_DB_URL` or rely on `MYSQL_URL` / `DATABASE_URL` automatically detected by the app.
 
 ## Troubleshooting Build Errors
 

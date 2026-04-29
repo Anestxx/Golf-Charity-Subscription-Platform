@@ -31,7 +31,7 @@ Subscription subscription = (Subscription) request.getAttribute("subscription");
                     <p>Ends on: <strong><%= subscription == null ? "n/a" : subscription.getEndDate() %></strong></p>
                     <form method="post">
                         <input type="hidden" name="action" value="renew">
-                        <button class="button button-dark compact" type="submit">Renew for 249.00</button>
+                        <button class="button button-dark compact" type="submit">Renew for Rs 249.00</button>
                     </form>
                 </article>
 

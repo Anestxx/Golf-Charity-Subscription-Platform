@@ -35,7 +35,7 @@ Set<Long> bookedSlotIds = (Set<Long>) request.getAttribute("bookedSlotIds");
                     <p>Tee off at <strong><%= slot.getSlotTime() %></strong> with up to <%= slot.getMaxPlayers() %> players.</p>
                     <div class="detail-row">
                         <span><%= slot.getOpenSpots() %> spots remaining</span>
-                        <span>Fee <strong><%= slot.getPrice() %></strong></span>
+                        <span>Fee <strong>Rs <%= slot.getPrice() %></strong></span>
                     </div>
                     <form method="post">
                         <input type="hidden" name="slotId" value="<%= slot.getId() %>">

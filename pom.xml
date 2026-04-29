@@ -47,10 +47,51 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.8.1</version>
+        <executions>
+          <execution>
+            <id>copy-mysql-driver</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.mysql</groupId>
+                  <artifactId>mysql-connector-j</artifactId>
+                  <version>9.3.0</version>
+                  <type>jar</type>
+                  <destFileName>mysql-connector-j-9.3.0.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.google.protobuf</groupId>
+                  <artifactId>protobuf-java</artifactId>
+                  <version>4.29.3</version>
+                  <type>jar</type>
+                  <destFileName>protobuf-java-4.29.3.jar</destFileName>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>3.4.0</version>
         <configuration>
-          <includeScope>compile</includeScope>
+          <webResources>
+            <resource>
+              <directory>${project.build.directory}/classes/lib</directory>
+              <targetPath>WEB-INF/lib</targetPath>
+              <includes>
+                <include>*.jar</include>
+              </includes>
+            </resource>
+          </webResources>
         </configuration>
       </plugin>
     </plugins>

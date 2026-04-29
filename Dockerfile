@@ -13,11 +13,10 @@ ENV CATALINA_HOME=/usr/local/tomcat
 RUN rm -rf "$CATALINA_HOME"/webapps/*
 
 COPY --from=build /app/target/golf-charity-platform.war "$CATALINA_HOME"/webapps/ROOT.war
-COPY render-entrypoint.sh /usr/local/bin/render-entrypoint.sh
+COPY railway-entrypoint.sh /usr/local/bin/railway-entrypoint.sh
 
-RUN chmod +x /usr/local/bin/render-entrypoint.sh
+RUN chmod +x /usr/local/bin/railway-entrypoint.sh
 
 EXPOSE 10000
 
-ENTRYPOINT ["/usr/local/bin/render-entrypoint.sh"]
-
+ENTRYPOINT ["/usr/local/bin/railway-entrypoint.sh"]

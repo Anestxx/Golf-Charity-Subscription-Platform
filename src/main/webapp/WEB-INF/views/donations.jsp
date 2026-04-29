@@ -21,7 +21,7 @@ Object totalRaised = request.getAttribute("totalRaised");
             <div class="page-heading glass-panel reveal">
                 <p class="eyebrow">Donations</p>
                 <h1>Fundraise with visible momentum.</h1>
-                <p>Total raised so far: <strong><%= totalRaised == null ? "0" : totalRaised %></strong></p>
+                <p>Total raised so far: <strong>Rs <%= totalRaised == null ? "0" : totalRaised %></strong></p>
             </div>
 
             <section class="dashboard-grid">
@@ -50,7 +50,7 @@ Object totalRaised = request.getAttribute("totalRaised");
                                 <h3><%= entry.getLabel() %></h3>
                                 <p><%= entry.getSubLabel() %> · <%= entry.getContributionCount() %> gifts</p>
                             </div>
-                            <strong><%= entry.getTotalAmount() %></strong>
+                            <strong>Rs <%= entry.getTotalAmount() %></strong>
                         </article>
                         <% } %>
                     </div>
@@ -65,7 +65,7 @@ Object totalRaised = request.getAttribute("totalRaised");
                                 <h3><%= entry.getLabel() %></h3>
                                 <p><%= entry.getSubLabel() %> · <%= entry.getContributionCount() %> members</p>
                             </div>
-                            <strong><%= entry.getTotalAmount() %></strong>
+                            <strong>Rs <%= entry.getTotalAmount() %></strong>
                         </article>
                         <% } %>
                     </div>
